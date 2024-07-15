@@ -1,5 +1,9 @@
 "use strict";
 
+
+// Initiate the wowjs
+new WOW().init();
+
 // Spinner
 function spinner() {
     setTimeout(function () {
@@ -10,9 +14,6 @@ function spinner() {
     }, 1);
 }
 spinner();
-
-// Initiate the wowjs
-new WOW().init();
 
 // Dropdown on mouse hover
 const dropdowns = document.querySelectorAll(".dropdown");
@@ -62,38 +63,22 @@ backToTop.addEventListener('click', function(e) {
     });
 });
 
+
 // Facts counter
-const counterUpElements = document.querySelectorAll('[data-toggle="counter-up"]');
-counterUpElements.forEach(el => {
-    new CountUp(el, 0, el.textContent, 0, 2, {
-        useEasing: true,
-        useGrouping: true,
-        separator: ','
-    }).start();
-});
-
-// Modal Video
-document.addEventListener('DOMContentLoaded', function () {
-    let videoSrc;
-    const btnPlay = document.querySelector('.btn-play');
-    const videoModal = document.getElementById('videoModal');
-    const video = document.getElementById('video');
-
-    if (btnPlay) {
-        btnPlay.addEventListener('click', function () {
-            videoSrc = this.getAttribute("data-src");
+document.addEventListener('DOMContentLoaded', function() {
+    const counterUpElements = document.querySelectorAll('[data-toggle="counter-up"]');
+    counterUpElements.forEach(el => {
+        const target = parseInt(el.textContent);
+        const countUp = new CountUp(el, target, {
+            duration: 2,
+            separator: ',',
         });
-    }
-
-    if (videoModal) {
-        videoModal.addEventListener('shown.bs.modal', function () {
-            video.setAttribute('src', videoSrc + "?autoplay=1&modestbranding=1&showinfo=0");
-        });
-
-        videoModal.addEventListener('hide.bs.modal', function () {
-            video.setAttribute('src', videoSrc);
-        });
-    }
+        if (!countUp.error) {
+            countUp.start();
+        } else {
+            console.error(countUp.error);
+        }
+    });
 });
 
 // Testimonials carousel
