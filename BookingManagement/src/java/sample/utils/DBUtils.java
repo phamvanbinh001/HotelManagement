@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBUtils {
 
-    private static final String DB = "BookingManagement";
+    private static final String DB = "HotelManagement";
     private static final String USER_NAME = "sa";
     private static final String PASSWORD = "12345";
 

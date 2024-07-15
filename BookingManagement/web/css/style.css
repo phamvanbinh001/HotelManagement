@@ -464,14 +464,22 @@ a.signup:hover {
 }
 
 .text-primary {
-    color: #439845 !important;
+    color: var(--primary) !important;
+}
+
+.text-primary-light {
+    color: var(--light) !important;
 }
 
 .btn-primary {
-    background-color: #439845 !important;
-    border-color: #439845 !important; 
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important; 
 }
 .bg-primary {
-    background-color: #439845 !important;
+    background-color: var(--primary) !important;
+}
+
+.bg-primary-light {
+    background-color: var(--primary) !important;
 }
 
