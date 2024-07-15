@@ -84,3 +84,5 @@ GO
 
 SELECT * FROM Users
 SELECT * FROM Rooms
+
+UPDATE Rooms SET imageUrl = 'img/room-default.jpg';
