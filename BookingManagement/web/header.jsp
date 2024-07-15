@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Header Start -->
 <div class="container-fluid bg-dark px-0">
     <div class="row gx-0">
@@ -18,13 +19,22 @@
                         <p class="mb-0">+012 345 6789</p>
                     </div>
                 </div>
-                <div class="col-lg-5 px-5 text-end">
-                    <div class="d-inline-flex align-items-center py-2">
-                        <a href="login.jsp" class="me-3 text-decoration-none text-primary">Login</a>
-                        <span class="me-3 text-primary">|</span>
-                        <a href="register.jsp" class="me-3 text-decoration-none text-primary">Register</a>
-                        <a href="profile.jsp" class="text-decoration-none text-primary"><i class="fas fa-user"></i></a>
-                    </div>
+                <div class="col-lg-5 text-end">
+                    <c:if test="${sessionScope.userFullNameLogin == null}">
+                        <div class="d-inline-flex align-items-center py-2">
+                            <a href="#" class="me-3 text-decoration-none text-primary" onclick="openPopupLogin()">Login</a>
+                            <span class="me-3 text-primary">|</span>
+                            <a href="register.jsp" class="me-3 text-decoration-none text-primary">Register</a>
+                        </div>
+                    </c:if>
+                    <c:if test="${sessionScope.userFullNameLogin != null}">
+                        <div class="d-inline-flex align-items-center py-2">
+                            <a href="profile.jsp" class="text-decoration-none text-primary">
+                                <i class="fas fa-user"></i>
+                                <span class="me-3 text-primary">${sessionScope.userFullNameLogin}</span>
+                            </a>
+                        </div>
+                    </c:if>
                 </div>
             </div>
             <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
@@ -36,10 +46,9 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="home.jsp" class="nav-item nav-link active">Home</a>
-                        <a href="about.jsp" class="nav-item nav-link">About</a>
-                        <a href="service.jsp" class="nav-item nav-link">Services</a>
-                        <a href="room.jsp" class="nav-item nav-link">Rooms</a>
+                        <a href="#" class="nav-item nav-link active">Home</a>
+                        <a href="#about-page" class="nav-item nav-link">About</a>
+                        <a href="#room-page" class="nav-item nav-link">Rooms</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu rounded-0 m-0">
@@ -48,7 +57,7 @@
                                 <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
                             </div>
                         </div>
-                        <a href="contact.jsp" class="nav-item nav-link">Contact</a>
+                        <a href="#footer-page" class="nav-item nav-link">Contact</a>
                     </div>
                 </div>
             </nav>

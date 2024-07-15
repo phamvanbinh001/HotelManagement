@@ -1,6 +1,6 @@
 <%-- 
     Document   : home
-    Created on : Jul 12, 2024, 2:54:54 PM
+    Created on : Jul 10, 2024, 2:54:54 PM
     Author     : ADMIN
 --%>
 
@@ -9,7 +9,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="utf-8">
         <title>Hotelier - Hotel HTML Template</title>
@@ -35,7 +34,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
 
         <!-- Customized Bootstrap Stylesheet -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
+        <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
@@ -142,7 +142,7 @@
 
 
             <!-- About Start -->
-            <div class="container-xxl py-5">
+            <div class="container-xxl py-5 about-page" id="about-page">
                 <div class="container">
                     <div class="row g-5 align-items-center">
                         <div class="col-lg-6">
@@ -203,7 +203,7 @@
 
 
             <!-- Room Start -->
-            <div class="container-xxl py-5">
+            <div class="container-xxl py-5 room-page" id="room-page">
                 <div class="container">
                     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                         <h6 class="section-title text-center text-primary text-uppercase">Our Rooms</h6>
@@ -343,7 +343,8 @@
                 </div>
             </div>
             <!-- Newsletter Start -->
-            <jsp:include page="footer.jsp" />
+            <jsp:include page="footer.jsp"/>
+            <jsp:include page="login.jsp"/>
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="display: none"><i class="bi bi-arrow-up"></i></a>
         </div>
@@ -362,6 +363,12 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+        <script>
+            window.onload = function () {
+            <c:if test="${not empty param.login or not empty login}">
+                openPopupLogin();
+            </c:if>
+            };
+        </script>
     </body>
-
 </html>

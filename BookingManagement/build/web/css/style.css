@@ -1,12 +1,12 @@
 /********** Template CSS **********/
 :root {
-/*    --primary: #FEA116;
-    --light: #F1F8FF;
-    --dark: #0F172B;
-    
-    --primary: #2195ca;
-    --light: #F1F8FF;
-    --dark: #227d59;*/
+    /*    --primary: #FEA116;
+        --light: #F1F8FF;
+        --dark: #0F172B;
+        
+        --primary: #2195ca;
+        --light: #F1F8FF;
+        --dark: #227d59;*/
 
     --primary: #439845;
     --light: #E6F4E6;
@@ -29,7 +29,6 @@
     z-index: 99;
     align-content: center;
 }
-
 
 /*** Spinner ***/
 #spinner {
@@ -134,7 +133,7 @@
         position: relative;
         min-height: 450px;
     }
-    
+
     #header-carousel .carousel-item img {
         position: absolute;
         width: 100%;
@@ -403,6 +402,65 @@
     margin-right: 0;
     padding-right: 0;
     border-right: none;
+}
+
+
+/*Login popup*/
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.7);   
+    animation: fadeIn 0.5s ease-in-out;
+}
+.popup-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 400px;
+    animation: slideDown 0.5s ease-in-out;
+}
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-btn:hover {
+    color: black;
+}
+.submit-btn {
+    background-color: #439845;
+    border-color: #439845;
+}
+.submit-btn:hover {
+    background-color: #367a39;
+    border-color: #367a39;
+}
+a.forgot,
+a.signup {
+    color: #439845;
+    transition: color 0.3s ease;
+}
+a.forgot:hover,
+a.signup:hover {
+    color: #367a39;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideDown {
+    from { transform: translateY(-20%); }
+    to { transform: translateY(0); }
 }
 
 .text-primary {

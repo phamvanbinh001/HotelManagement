@@ -1,7 +1,5 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>   
 <!-- Footer Start -->
-<div class="container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s">
+<div class="container-fluid bg-dark text-light footer wow fadeIn footer-page" id="footer-page" data-wow-delay="0.1s">
     <div class="container pb-5">
         <div class="row g-5">
             <div class="col-md-6 col-lg-4">
