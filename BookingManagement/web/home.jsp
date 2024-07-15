@@ -66,8 +66,8 @@
                                 <div class="p-3" style="max-width: 700px;">
                                     <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Luxury Living</h6>
                                     <h1 class="display-3 text-white mb-4 animated slideInDown">Discover A Brand Luxurious Hotel</h1>
-                                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
-                                    <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
+                                    <a href="#room-page" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Our Rooms</a>
+                                    <a href="#room-page" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book A Room</a>
                                 </div>
                             </div>
                         </div>
@@ -148,38 +148,38 @@
                     <div class="row g-5 align-items-center">
                         <div class="col-lg-6">
                             <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
-                            <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">ThieuHoangg</span></h1>
+                            <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Xom Nha La</span></h1>
                             <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
                             <div class="row g-3 pb-4">
                                 <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
-                                    <div class="border rounded p-1">
+                                    <div class="border p-1">
                                         <div class="border rounded text-center p-4">
                                             <i class="fa fa-hotel fa-2x text-primary mb-2"></i>
-                                            <h2 class="mb-1" data-toggle="counter-up">1234</h2>
-                                            <p class="mb-0">Rooms</p>
+                                            <h2 class="mb-1">${requestScope.roomList == null ? 0 : requestScope.roomList.size()} rooms</h2>
+                                            <p class="mb-0">Large space</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4 wow fadeIn" data-wow-delay="0.3s">
-                                    <div class="border rounded p-1">
+                                    <div class="border p-1">
                                         <div class="border rounded text-center p-4">
-                                            <i class="fa fa-users-cog fa-2x text-primary mb-2"></i>
-                                            <h2 class="mb-1" data-toggle="counter-up">1234</h2>
-                                            <p class="mb-0">Staffs</p>
+                                            <i class="fas fa-star fa-2x text-primary mb-2"></i>
+                                            <h2 class="mb-1"">4 stars</h2>
+                                            <p class="mb-0">High Quality</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-4 wow fadeIn" data-wow-delay="0.5s">
-                                    <div class="border rounded p-1">
+                                    <div class="border p-1">
                                         <div class="border rounded text-center p-4">
-                                            <i class="fa fa-users fa-2x text-primary mb-2"></i>
-                                            <h2 class="mb-1" data-toggle="counter-up">1234</h2>
-                                            <p class="mb-0">Clients</p>
+                                            <i class="fas fa-wifi fa-2x text-primary mb-2"></i>
+                                            <h2 class="mb-1">Internet</h2>
+                                            <p class="mb-0">24/24</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <a class="btn btn-primary py-3 px-5 mt-2" href="#">Explore More</a>
+                            <a class="btn btn-primary py-3 px-5 mt-2" href="#footer-page">Explore More</a>
                         </div>
                         <div class="col-lg-6">
                             <div class="row g-3">
@@ -256,27 +256,6 @@
             </div>
             <!-- Room End -->
 
-            <!-- Video Start -->
-            <div class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
-                <div class="row g-0">
-                    <div class="col-md-6 bg-dark d-flex align-items-center">
-                        <div class="p-5">
-                            <h6 class="section-title text-start text-white text-uppercase mb-3">Luxury Living</h6>
-                            <h1 class="text-white mb-4">Discover A Brand Luxurious Hotel</h1>
-                            <p class="text-white mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3">Our Rooms</a>
-                            <a href="" class="btn btn-light py-md-3 px-md-5">Book A Room</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="image-container">
-                            <img src="img/video.jpg" alt="Our" class="full-width-image">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Video Start -->
-
             <!-- Newsletter Start -->
             <div class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
                 <div class="row justify-content-center">
@@ -286,7 +265,9 @@
                                 <h4 class="mb-4">Subscribe Our <span class="text-primary text-uppercase">Newsletter</span></h4>
                                 <div class="position-relative mx-auto" style="max-width: 400px;">
                                     <input class="form-control w-100 py-3 ps-4 pe-5" type="text" placeholder="Enter your email">
-                                    <button type="button" class="btn btn-primary py-2 px-3 position-absolute top-0 end-0 mt-2 me-2">Submit</button>
+                                    <button type="button" class="btn btn-primary py-2 px-3 position-absolute top-0 end-0 mt-2 me-2" onclick="showErrorModal('Feature not supported yet!')">
+                                        Submit
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -306,11 +287,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
-        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"></script>-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
 
 
@@ -321,19 +300,8 @@
                 openPopupLogin();
             </c:if>
             };
-            document.addEventListener('DOMContentLoaded', function () {
-                if (document.querySelector('.wow')) {
-                    var wow = new WOW({
-                        boxClass: 'wow', 
-                        animateClass: 'animated', 
-                        offset: 0, 
-                        mobile: true, 
-                        live: true      
-                    });
-                    wow.init();
-                }
-            });
         </script>
         <script src="js/main.js"></script>
+        <jsp:include page="modal.jsp"/>
     </body>
 </html>

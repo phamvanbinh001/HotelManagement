@@ -165,5 +165,4 @@ showSuccessModal("Operation completed successfully!");
 
 // Hiển thị modal lỗi trong 5 giây
 showErrorModal("An error occurred. Please try again.", 5000);
-
-// Các modal khác vẫn giữ nguyên cách sử dụng-->
+-->

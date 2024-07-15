@@ -63,24 +63,6 @@ backToTop.addEventListener('click', function(e) {
     });
 });
 
-
-// Facts counter
-document.addEventListener('DOMContentLoaded', function() {
-    const counterUpElements = document.querySelectorAll('[data-toggle="counter-up"]');
-    counterUpElements.forEach(el => {
-        const target = parseInt(el.textContent);
-        const countUp = new CountUp(el, target, {
-            duration: 2,
-            separator: ',',
-        });
-        if (!countUp.error) {
-            countUp.start();
-        } else {
-            console.error(countUp.error);
-        }
-    });
-});
-
 // Testimonials carousel
 const testimonialCarousel = document.querySelector(".testimonial-carousel");
 if (testimonialCarousel) {

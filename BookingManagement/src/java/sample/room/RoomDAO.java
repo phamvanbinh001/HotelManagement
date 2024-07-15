@@ -62,4 +62,10 @@ public class RoomDAO {
         }
         return list;
     }
+    
+    public static void main(String[] args) throws SQLException {
+        RoomDAO dao = new RoomDAO();
+        
+        System.out.println(dao.getRoomList());
+    }
 }

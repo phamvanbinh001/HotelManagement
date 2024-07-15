@@ -175,9 +175,7 @@
             </div>
         </div>
         <%@include file="footer.jsp" %>
-        <%@include file="modal.jsp" %>
-        <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             const pass = document.querySelector("#password");
             const pass2 = document.querySelector("#confirmPassword");
@@ -216,7 +214,8 @@
             pass.addEventListener("input", validatePassword);
             pass2.addEventListener("input", validateConfirmPassword);
         </script>
-        <c:if test="${param.success == true}">
+        <%@include file="modal.jsp" %>
+        <c:if test="${param.success == 'true'}">
             <script>
                 showSuccessModal("Update profile successfully!");
             </script>
