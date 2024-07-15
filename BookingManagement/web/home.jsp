@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="f"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,10 +39,10 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        <!--Header-->
-        <link rel="stylesheet" type="text/css" href="css/header.css">
-        <!--Footer-->
-        <link rel="stylesheet" type="text/css" href="css/footer.css">
+        <!--        Header
+                <link rel="stylesheet" type="text/css" href="css/header.css">
+                Footer
+                <link rel="stylesheet" type="text/css" href="css/footer.css">-->
     </head>
 
     <body>
@@ -302,7 +304,6 @@
                 </div>
             </div>
             <!-- Room End -->
-
 
             <!-- Video Start -->
             <div class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">

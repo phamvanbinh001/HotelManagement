@@ -1,5 +1,3 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>        
 <!-- Header Start -->
 <div class="container-fluid bg-dark px-0">
     <div class="row gx-0">
