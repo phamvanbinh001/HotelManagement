@@ -18,7 +18,8 @@ public class DBUtils {
         return conn;
     }
 //
-//    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//        System.out.println(getConnection().toString());
-//    }
+
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        System.out.println(getConnection().getCatalog());
+    }
 }

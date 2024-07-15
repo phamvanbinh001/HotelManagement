@@ -216,7 +216,7 @@
                                     <div class="position-relative">
                                         <img class="img-fluid" src="${p.imageUrl}" alt="Our room">
                                         <c:if test="${p.type == 'Luxury'}">
-                                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary-light text-white rounded py-1 px-3 ms-4">
+                                            <small class="position-absolute start-0 top-100 translate-middle-y text-white rounded bg-luxury py-1 px-3 ms-4">
                                                 <span>$</span>${p.pricePerDay}/Day
                                             </small>
                                         </c:if>
@@ -229,7 +229,7 @@
                                             <h5 class="mb-0">Room: ${p.roomNumber}</h5>
                                             <div class="ps-2">
                                                 <c:if test="${p.type == 'Luxury'}">
-                                                    <p class="fw-bold text-danger">${p.type} Room</p>
+                                                    <p class="fw-bold text-luxury">${p.type} Room</p>
                                                 </c:if>
                                                 <c:if test="${p.type == 'Standard'}">
                                                     <p class="fw-bold text-secondary">${p.type} Room</p>
