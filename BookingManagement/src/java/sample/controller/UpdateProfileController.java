@@ -15,16 +15,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.user.User;
 import sample.user.UserDAO;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "ProfileController", urlPatterns = {"/profile"})
-public class ProfileController extends HttpServlet {
+@WebServlet(name = "UpdateProfileController", urlPatterns = {"/updateProfile"})
+public class UpdateProfileController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,18 +36,18 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        int id = (int) request.getSession().getAttribute("userIdLogin");
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         UserDAO dao = new UserDAO();
-        HttpSession session = request.getSession();
-        String userFullNameLogin = (String) session.getAttribute("userFullNameLogin");
-        String userIdLogin = String.valueOf(session.getAttribute("userIdLogin"));
-        if (userIdLogin == null || userFullNameLogin == null) {
-            response.sendRedirect("home?login=yes");
+        if (password == null || password.isEmpty()) {
+            dao.notUpdatePassword(id, fullName, email, username);
         } else {
-            int id = Integer.parseInt(userIdLogin);
-            User user = dao.getUserById(id);
-            request.setAttribute("userLogin", user);
-            request.getRequestDispatcher("profile.jsp").forward(request, response);
+            dao.update(id, fullName, email, username, password);
         }
+        response.sendRedirect("profile?success=true");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -67,7 +65,7 @@ public class ProfileController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -85,7 +83,7 @@ public class ProfileController extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -60,7 +60,6 @@ public class LoginController extends HttpServlet {
         if (user != null && user.isIsAvailable()) {
             session.setAttribute("userFullNameLogin", user.getFullName());
             session.setAttribute("userIdLogin", user.getUserId());
-            session.setAttribute("userLogin", user);
             response.sendRedirect(src);
         } else if (user != null && !user.isIsAvailable()) {
             response.sendRedirect("access-denied.jsp");

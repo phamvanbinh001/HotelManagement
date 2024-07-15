@@ -32,6 +32,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
         <!-- Customized Bootstrap Stylesheet -->
         <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">-->
@@ -250,96 +251,6 @@
                                 </div>
                             </div>
                         </c:forEach>
-                        <!--                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                                    <div class="room-item shadow rounded overflow-hidden">
-                                                        <div class="position-relative">
-                                                            <img class="img-fluid" src="img/room-1.jpg" alt="">
-                                                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
-                                                        </div>
-                                                        <div class="p-4 mt-2">
-                                                            <div class="d-flex justify-content-between mb-3">
-                                                                <h5 class="mb-0">Junior Suite</h5>
-                                                                <div class="ps-2">
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-flex mb-3">
-                                                                <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-                                                                <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-                                                                <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-                                                            </div>
-                                                            <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                                                            <div class="d-flex justify-content-between">
-                                                                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                                                    <div class="room-item shadow rounded overflow-hidden">
-                                                        <div class="position-relative">
-                                                            <img class="img-fluid" src="img/room-2.jpg" alt="">
-                                                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
-                                                        </div>
-                                                        <div class="p-4 mt-2">
-                                                            <div class="d-flex justify-content-between mb-3">
-                                                                <h5 class="mb-0">Executive Suite</h5>
-                                                                <div class="ps-2">
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-flex mb-3">
-                                                                <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-                                                                <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-                                                                <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-                                                            </div>
-                                                            <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                                                            <div class="d-flex justify-content-between">
-                                                                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
-                                                    <div class="room-item shadow rounded overflow-hidden">
-                                                        <div class="position-relative">
-                                                            <img class="img-fluid" src="img/room-3.jpg" alt="">
-                                                            <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">$100/Night</small>
-                                                        </div>
-                                                        <div class="p-4 mt-2">
-                                                            <div class="d-flex justify-content-between mb-3">
-                                                                <h5 class="mb-0">Super Deluxe</h5>
-                                                                <div class="ps-2">
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                    <small class="fa fa-star text-primary"></small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-flex mb-3">
-                                                                <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>
-                                                                <small class="border-end me-3 pe-3"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>
-                                                                <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
-                                                            </div>
-                                                            <p class="text-body mb-3">Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem sed diam stet diam sed stet lorem.</p>
-                                                            <div class="d-flex justify-content-between">
-                                                                <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                                                <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>-->
                     </div>
                 </div>
             </div>
@@ -399,16 +310,30 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"></script>-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
 
+
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
         <script>
             window.onload = function () {
             <c:if test="${not empty param.login or not empty login}">
                 openPopupLogin();
             </c:if>
             };
+            document.addEventListener('DOMContentLoaded', function () {
+                if (document.querySelector('.wow')) {
+                    var wow = new WOW({
+                        boxClass: 'wow', 
+                        animateClass: 'animated', 
+                        offset: 0, 
+                        mobile: true, 
+                        live: true      
+                    });
+                    wow.init();
+                }
+            });
         </script>
+        <script src="js/main.js"></script>
     </body>
 </html>

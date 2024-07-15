@@ -19,8 +19,11 @@ import sample.utils.Hashing;
 public class UserDAO {
 
     private static final String LOGIN = "SELECT * FROM Users WHERE username = ? OR email = ?";
+    private static final String GET_USER_BY_ID = "SELECT * FROM Users WHERE userId = ?";
     private static final String CHECK_UNIQUE = "SELECT userId FROM [Users] WHERE ";
     private static final String REGISTER = "INSERT INTO [Users](username, password, fullName, email, role) VALUES(?, ?, ?, ?, 'user')";
+    private static final String UPDATE_FULL = "UPDATE Users SET username = ?, password = ?, fullName = ?, email = ? WHERE userId = ?";
+    private static final String NOT_UPDATE_PASSWORD = "UPDATE Users SET username = ?, fullName = ?, email = ? WHERE userId = ?";
 
     public User login(String usernameOrEmail, String passIn) throws SQLException {
         User user = null;
@@ -116,5 +119,88 @@ public class UserDAO {
             }
         }
         return false;
+    }
+
+    public User getUserById(int id) throws SQLException {
+        User user = null;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtils.getConnection();
+            ps = connection.prepareStatement(GET_USER_BY_ID);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int userId = rs.getInt("userId");
+                String username = rs.getString("username");
+                String fullName = rs.getString("fullName");
+                String email = rs.getString("email");
+                String role = rs.getString("role");
+                boolean isAvailable = rs.getBoolean("isAvailable");
+                user = new User(userId, username, "***", fullName, email, role, isAvailable);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return user;
+    }
+
+    public void notUpdatePassword(int id, String fullName, String email, String username) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try {
+            connection = DBUtils.getConnection();
+            ps = connection.prepareStatement(NOT_UPDATE_PASSWORD);
+            ps.setString(1, username);
+            ps.setString(2, fullName);
+            ps.setString(3, email);
+            ps.setInt(4, id);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public void update(int id, String fullName, String email, String username, String password) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try {
+            connection = DBUtils.getConnection();
+            ps = connection.prepareStatement(UPDATE_FULL);
+            ps.setString(1, username);
+            password = Hashing.hashPassword(password);
+            ps.setString(2, password);
+            ps.setString(3, fullName);
+            ps.setString(4, email);
+            ps.setInt(5, id);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
     }
 }
