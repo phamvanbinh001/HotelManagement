@@ -24,6 +24,9 @@ public class MainController extends HttpServlet {
     private final String LOGIN = "login";
     private final String REGISTER = "register";
     private final String UPDATE_PROFILE = "updateProfile";
+    private final String ADMIN = "admin";
+    private final String LOGOUT = "logout";
+    private final String ADD_ROOM = "addRoom";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,6 +44,15 @@ public class MainController extends HttpServlet {
                     break;
                 case "updateProfile":
                     request.getRequestDispatcher(UPDATE_PROFILE).forward(request, response);
+                    break;
+                case "admin":
+                    request.getRequestDispatcher(ADMIN).forward(request, response);
+                    break;
+                case "logout":
+                    request.getRequestDispatcher(LOGOUT).forward(request, response);
+                    break;
+                case "addRoom":
+                    request.getRequestDispatcher(ADD_ROOM).forward(request, response);
                     break;
             }
         }

@@ -123,7 +123,7 @@
                                         <div class="mb-3 row">
                                             <label for="fullName" class="col-sm-3 col-form-label">Full Name</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" name="fullName" id="fullName" value="${p.fullName}" required>
+                                                <input maxlength="40" type="text" class="form-control" name="fullName" id="fullName" value="${p.fullName}" required>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
