@@ -48,14 +48,14 @@
         <div class="container">
             <div class="register-container">
                 <h2 class="text-center mb-4">Register</h2>
-                <form action="home" method="post" onsubmit="return validatePassword() && validateConfirmPassword()">
-                    <input type="hidden" name="action" value="Register">
+                <form action="main" method="post" onsubmit="return validatePassword() && validateConfirmPassword()">
+                    <input type="hidden" name="action" value="register">
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Phone number</label>
-                        <input type="tel" class="form-control" id="phone" name="phone" pattern="^[+]?[0-9]{10,11}$" value="${phone}" required>
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="${username}" required>
                     </div>
-                    <div class="text-danger mb-3" style="display: none; ${phoneErrStyle}">
-                        Phone number is already in use!
+                    <div class="text-danger mb-3" style="display: none; ${usernameErrStyle}">
+                        Username is already in use!
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>

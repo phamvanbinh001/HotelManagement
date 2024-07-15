@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.user.UserDAO;
 
 /**
  *
@@ -32,12 +33,33 @@ public class RegisterController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
         
-        if (session.getAttribute("userFullNameLogin") != null || session.getAttribute("userIdLogin") != null) {
+        HttpSession session = request.getSession();
+        UserDAO dao = new UserDAO();
+
+        String username = request.getParameter("username");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        boolean error = false;
+        if (dao.checkUnique("username", username)) {
+            request.setAttribute("usernameErrStyle", "display: block;");
+            error = true;
+        }
+        if (dao.checkUnique("email", email)) {
+            request.setAttribute("emailErrStyle", "display: block;");
+            error = true;
+        }
+        if (error == true) {
+            request.setAttribute("username", username);
+            request.setAttribute("email", email);
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } else if (dao.register(username, email, password)) {
+            session.setAttribute("userFullNameLogin", "New User");
+            session.setAttribute("usernameLogin", username);
             response.sendRedirect("home");
         } else {
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 

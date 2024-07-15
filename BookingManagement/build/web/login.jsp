@@ -4,12 +4,12 @@
     <div class="popup-content">
         <span class="close-btn">&times;</span>
         <h2 class="text-center mb-4">Login</h2>
-        <form action="home" method="post">
+        <form action="main" method="post">
             <input type="hidden" name="src" value="${pageContext.request.servletPath.substring(1)}">
-            <input type="hidden" name="action" value="Login">
+            <input type="hidden" name="action" value="login">
             <div class="mb-3">
-                <label for="phoneOrEmail" class="form-label">Email or phone number</label>
-                <input type="text" class="form-control" id="phoneOrEmail" name="phoneOrEmail" value="${requestScope.phoneOrEmail}" required>
+                <label for="usernameOrEmail" class="form-label">Email or Username </label>
+                <input type="text" class="form-control" id="usernameOrEmail" name="usernameOrEmail" value="${requestScope.usernameOrEmail}" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>

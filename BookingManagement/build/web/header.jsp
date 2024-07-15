@@ -24,7 +24,7 @@
                         <div class="d-inline-flex align-items-center py-2">
                             <a href="#" class="me-3 text-decoration-none text-primary" onclick="openPopupLogin()">Login</a>
                             <span class="me-3 text-primary">|</span>
-                            <a href="register" class="me-3 text-decoration-none text-primary">Register</a>
+                            <a href="register.jsp" class="me-3 text-decoration-none text-primary">Register</a>
                         </div>
                     </c:if>
                     <c:if test="${sessionScope.userFullNameLogin != null}">
