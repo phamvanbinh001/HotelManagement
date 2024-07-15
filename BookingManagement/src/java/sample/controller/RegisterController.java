@@ -56,6 +56,7 @@ public class RegisterController extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else if (dao.register(username, email, password)) {
             session.setAttribute("userFullNameLogin", "New User");
+            session.setAttribute("userIdLogin", -1);
             session.setAttribute("usernameLogin", username);
             response.sendRedirect("home");
         } else {

@@ -23,6 +23,7 @@ public class MainController extends HttpServlet {
     private final String URL = "home";
     private final String LOGIN = "login";
     private final String REGISTER = "register";
+    private final String UPDATE_PROFILE = "updateProfile";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,6 +38,9 @@ public class MainController extends HttpServlet {
                     break;
                 case "register":
                     request.getRequestDispatcher(REGISTER).forward(request, response);
+                    break;
+                case "updateProfile":
+                    request.getRequestDispatcher(UPDATE_PROFILE).forward(request, response);
                     break;
             }
         }

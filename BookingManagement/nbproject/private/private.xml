@@ -3,28 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/web/home.jsp</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/MainController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/booking/BookingDAO.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/web/WEB-INF/web.xml</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/LoginController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/web/login.jsp</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/BookingController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/web/footer.jsp</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/room/Room.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/LogoutController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/booking/Booking.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/web/header.jsp</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/ManageBookingController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/room/RoomDAO.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/utils/DBUtils.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/HomeController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/RegisterController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/AddNewHotelController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/web/register.jsp</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/utils/ShortCut.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/src/java/sample/controller/CheckoutController.java</file>
-            <file>file:/F:/PVBProject/HotelManagement/BookingManagement/web/css/style.css</file>
+            <file>file:/C:/Users/ADMIN/OneDrive/SE4/PRJ301%20-%20Java%20Web%20Application%20Developement/HotelManagement/BookingManagement/web/profile.jsp</file>
         </group>
     </open-files>
 </project-private>

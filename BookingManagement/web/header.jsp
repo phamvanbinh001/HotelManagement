@@ -29,7 +29,7 @@
                     </c:if>
                     <c:if test="${sessionScope.userFullNameLogin != null}">
                         <div class="d-inline-flex align-items-center py-2">
-                            <a href="profile.jsp" class="text-decoration-none text-primary">
+                            <a href="profile" class="text-decoration-none text-primary">
                                 <i class="fas fa-user"></i>
                                 <span class="me-3 text-primary">${sessionScope.userFullNameLogin}</span>
                             </a>
