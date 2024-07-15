@@ -6,20 +6,19 @@ import java.sql.SQLException;
 
 public class DBUtils {
 
-    private static final String DB = "FinanceManage";
+    private static final String DB = "BookingManagement";
     private static final String USER_NAME = "sa";
     private static final String PASSWORD = "12345";
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        Connection conn = null;
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=" + DB+ ";encrypt=true;trustServerCertificate=true";
-        conn = DriverManager.getConnection(url, USER_NAME, PASSWORD);
+        String dbDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        String dbURL = "jdbc:sqlserver://localhost:1433;databaseName=";
+        Class.forName(dbDriver);
+        Connection conn = DriverManager.getConnection(dbURL + DB, USER_NAME, PASSWORD);
         return conn;
     }
-    
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        System.out.println(getConnection().toString());
-    }
 
+//    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+//        System.out.println(getConnection().toString());
+//    }
 }

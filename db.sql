@@ -1,48 +1,41 @@
 -- Xóa cơ sở dữ liệu nếu tồn tại
-IF EXISTS (SELECT * FROM sys.databases WHERE name = 'BookingManagement')
+USE master;
+IF EXISTS (SELECT * FROM sys.databases WHERE name = 'HotelManagement')
 BEGIN
-    DROP DATABASE BookingManagement;
+    DROP DATABASE HotelManagement;
 END
 GO
 
 -- Tạo lại cơ sở dữ liệu
-CREATE DATABASE BookingManagement;
+CREATE DATABASE HotelManagement;
 GO
 
-USE BookingManagement;
+USE HotelManagement;
 GO
 
--- Bảng Khách sạn
-CREATE TABLE Hotels (
-    hotelId INT PRIMARY KEY IDENTITY(1,1),
-    name VARCHAR(255) NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    phone VARCHAR(20),
-	image VARCHAR(2048),
-    email VARCHAR(100)
+-- Bảng Người dùng
+CREATE TABLE Users (
+    userId INT PRIMARY KEY IDENTITY(1,1),
+	username VARCHAR(50) NOT NULL UNIQUE,
+    password CHAR(60) NOT NULL, --Bcrypt luôn cho ra 1 chuỗi độ dài 60
+    fullName NVARCHAR(100) NOT NULL,
+    email VARCHAR(254) NOT NULL UNIQUE, --Theo tiêu chuẩn RFC 5321
+    role VARCHAR(10) NOT NULL CHECK (role IN ('user', 'admin')),
+	isAvailable BIT DEFAULT 1
 );
 GO
 
 -- Bảng Phòng
 CREATE TABLE Rooms (
     roomId INT PRIMARY KEY IDENTITY(1,1),
-    hotelId INT,
-    roomNumber VARCHAR(10) NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    price FLOAT NOT NULL,
-	image VARCHAR(2048),
-    isAvailable BIT,
-    FOREIGN KEY (hotelId) REFERENCES Hotels(hotelId)
-);
-GO
-
--- Bảng Khách hàng với cột role
-CREATE TABLE Users (
-    userId INT PRIMARY KEY IDENTITY(1,1),
-	password VARCHAR(100) NOT NULL,
-    fullName VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    role VARCHAR(10) NOT NULL
+    roomNumber VARCHAR(10) NOT NULL UNIQUE,
+    doubleBeds INT NOT NULL DEFAULT 0,
+    singleBeds INT NOT NULL DEFAULT 0,
+    pricePerDay DECIMAL(10, 2) NOT NULL,
+	type VARCHAR(10) NOT NULL CHECK (type IN ('Luxury', 'Standard')),
+	amenitiesDescription NVARCHAR(255),
+    imageUrl VARCHAR(2048),
+    isAvailable BIT DEFAULT 1
 );
 GO
 
@@ -51,11 +44,11 @@ CREATE TABLE Bookings (
     bookingId INT PRIMARY KEY IDENTITY(1,1),
     userId INT,
     roomId INT,
-    checkin DATETIME NOT NULL,
-    checkout DATETIME NOT NULL,
+    checkinDate DATE NOT NULL,
+    checkoutDate DATE NOT NULL,
     totalPrice DECIMAL(10, 2) NOT NULL,
     bookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50) DEFAULT 'pending',
+    status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'canceled', 'completed')),
     FOREIGN KEY (userId) REFERENCES Users(userId),
     FOREIGN KEY (roomId) REFERENCES Rooms(roomId)
 );
@@ -63,26 +56,31 @@ GO
 
 -- Bảng Thanh toán
 CREATE TABLE Payments (
-    id VARCHAR(7) PRIMARY KEY,
+    paymentId INT PRIMARY KEY IDENTITY(1,1),
     bookingId INT,
-    amount FLOAT NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
     paymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     paymentMethod VARCHAR(50) NOT NULL,
-    status VARCHAR(50) DEFAULT 'completed',
+    status VARCHAR(50) DEFAULT 'completed' CHECK (status IN ('pending', 'completed', 'failed')),
     FOREIGN KEY (bookingId) REFERENCES Bookings(bookingId)
 );
 GO
 
--- Thêm 10 mẫu vào bảng Users
-INSERT INTO Users (password, fullName, email, role) VALUES
-('1', 'User', 'user@gmail.com', 'user'),
-('1', 'Admin', 'admin@gmail.com', 'admin'),
-('password3', 'Michael Johnson', 'michael.johnson@example.com', 'user'),
-('password4', 'Emily Davis', 'emily.davis@example.com', 'user'),
-('password5', 'Christopher Brown', 'christopher.brown@example.com', 'admin'),
-('password6', 'Patricia Garcia', 'patricia.garcia@example.com', 'user'),
-('password7', 'Linda Martinez', 'linda.martinez@example.com', 'user'),
-('password8', 'David Hernandez', 'david.hernandez@example.com', 'admin'),
-('password9', 'Barbara Wilson', 'barbara.wilson@example.com', 'user'),
-('password10', 'James Clark', 'james.clark@example.com', 'user');
+-- Thêm một số dữ liệu mẫu
+
+INSERT INTO Users (username, password, fullName, email, role) VALUES
+('user', '$2a$10$gXzRbDVDARA4ERtjP/s9g.WrExj3RcNrwNGKjrqOamxvLdJa15AQm', 'John Doe', 'john@example.com', 'user'),
+('admin', '$2a$10$gXzRbDVDARA4ERtjP/s9g.WrExj3RcNrwNGKjrqOamxvLdJa15AQm', 'Admin User', 'admin@example.com', 'admin');
 GO
+--Password mặc định: 12345
+-- Thêm các phòng mẫu vào bảng Rooms
+INSERT INTO Rooms (roomNumber, doubleBeds, singleBeds, pricePerDay, type, amenitiesDescription, imageUrl, isAvailable)
+VALUES
+('101', 1, 0, 100.00, 'Luxury', 'Spacious room with city view', 'https://example.com/room101.jpg', 1),
+('102', 1, 2, 120.00, 'Standard', 'Cozy room with basic amenities', 'https://example.com/room102.jpg', 1),
+('103', 2, 1, 150.00, 'Luxury', 'Suite with Jacuzzi and ocean view', 'https://example.com/room103.jpg', 1),
+('104', 0, 3, 110.00, 'Standard', 'Family room with bunk beds', 'https://example.com/room104.jpg', 1);
+GO
+
+SELECT * FROM Users
+SELECT * FROM Rooms
