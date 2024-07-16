@@ -6,10 +6,7 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +32,7 @@ public class UpdateProfileController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         int id = (int) request.getSession().getAttribute("userIdLogin");
         String fullName = request.getParameter("fullName");
@@ -43,10 +40,15 @@ public class UpdateProfileController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UserDAO dao = new UserDAO();
-        if (password == null || password.isEmpty()) {
-            dao.notUpdatePassword(id, fullName, email, username);
-        } else {
-            dao.update(id, fullName, email, username, password);
+        try {
+            if (password == null || password.isEmpty()) {
+                dao.notUpdatePassword(id, fullName, email, username);
+            } else {
+                dao.update(id, fullName, email, username, password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect("profile?error=true");
         }
         HttpSession session = request.getSession();
         session.setAttribute("userFullNameLogin", fullName);
@@ -65,11 +67,7 @@ public class UpdateProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -83,11 +81,7 @@ public class UpdateProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -6,19 +6,23 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import sample.booking.Booking;
+import sample.booking.BookingDAO;
 
 /**
  *
- * @author ADMIN
+ * @author traut
  */
-@WebServlet(name = "ViewBookingHistory", urlPatterns = {"/viewBookingHistory"})
-public class ViewBookingHistory extends HttpServlet {
+@WebServlet(name = "ViewBookingController", urlPatterns = {"/viewBooking"})
+public class ViewBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,17 +36,23 @@ public class ViewBookingHistory extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewBookingHistory</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewBookingHistory at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        HttpSession session = request.getSession();
+        BookingDAO dao = new BookingDAO();
+
+        if (session.getAttribute("userFullNameLogin") == null) {
+            response.sendRedirect("home?login=yes");
+        } else {
+            try {
+                int userIdLogin = (int) session.getAttribute("userIdLogin");
+                List<Booking> list = dao.getBookingList(userIdLogin);
+                request.setAttribute("bookingList", list);
+                java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+                request.setAttribute("currentDate", currentDate);
+                request.getRequestDispatcher("bookingView.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                response.sendRedirect("error.jsp");
+            }
         }
     }
 

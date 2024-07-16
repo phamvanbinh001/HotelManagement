@@ -48,7 +48,8 @@ CREATE TABLE Bookings (
     checkoutDate DATE NOT NULL,
     totalPrice DECIMAL(10, 2) NOT NULL,
     bookingDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'confirmed', 'canceled', 'completed')),
+	message NVARCHAR (500),
+    status VARCHAR(50) DEFAULT 'pending' CHECK (status IN ('pending', 'canceled', 'completed')),
     FOREIGN KEY (userId) REFERENCES Users(userId),
     FOREIGN KEY (roomId) REFERENCES Rooms(roomId)
 );
@@ -76,13 +77,25 @@ GO
 -- Thêm các phòng mẫu vào bảng Rooms
 INSERT INTO Rooms (roomNumber, doubleBeds, singleBeds, pricePerDay, type, amenitiesDescription, imageUrl, isAvailable)
 VALUES
-('101', 1, 0, 100.00, 'Luxury', 'Spacious room with city view', 'https://example.com/room101.jpg', 1),
-('102', 1, 2, 120.00, 'Standard', 'Cozy room with basic amenities', 'https://example.com/room102.jpg', 1),
-('103', 2, 1, 150.00, 'Luxury', 'Suite with Jacuzzi and ocean view', 'https://example.com/room103.jpg', 1),
-('104', 0, 3, 110.00, 'Standard', 'Family room with bunk beds', 'https://example.com/room104.jpg', 1);
+('101', 1, 0, 100.00, 'Luxury', 'Spacious room with city view', 'img/room-default.jpg', 1),
+('102', 1, 2, 120.00, 'Standard', 'Cozy room with basic amenities', 'img/room-default.jpg', 1),
+('103', 2, 1, 150.00, 'Luxury', 'Suite with Jacuzzi and ocean view', 'img/room-default.jpg', 1),
+('104', 0, 3, 110.00, 'Standard', 'Family room with bunk beds', 'img/room-default.jpg', 1);
 GO
 
 SELECT * FROM Users
 SELECT * FROM Rooms
 
-UPDATE Rooms SET imageUrl = 'img/room-default.jpg';
+-- Thêm các booking mẫu vào bảng Bookings cho userId = 1
+INSERT INTO Bookings (userId, roomId, checkinDate, checkoutDate, totalPrice, status)
+VALUES
+(1, 4, '2024-05-30', '2024-06-02', 500.00, 'completed'),
+(1, 2, '2024-08-01', '2024-08-05', 480.00, 'completed'),
+(1, 3, '2024-09-10', '2024-09-15', 750.00, 'pending'),
+(1, 4, '2024-10-05', '2024-10-10', 550.00, 'canceled');
+GO
+
+select * from Bookings
+update Bookings set status = 'completed' where bookingId = 6
+UPDATE Bookings SET status = 'pending' 
+select * from Bookings

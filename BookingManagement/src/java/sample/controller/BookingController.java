@@ -6,12 +6,18 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import sample.booking.BookingDAO;
+import sample.room.Room;
+import sample.room.RoomDAO;
+import sample.user.User;
+import sample.user.UserDAO;
 
 /**
  *
@@ -32,17 +38,27 @@ public class BookingController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BookingController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BookingController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+//        doGet
+        HttpSession session = request.getSession();
+        UserDAO uDao = new UserDAO();
+        RoomDAO rDao = new RoomDAO();
+        
+        if (session.getAttribute("userIdLogin") == null) {
+            response.sendRedirect("home?login=yes");
+            return;
+        }
+
+        try {
+            int userId = (int) session.getAttribute("userIdLogin");
+            int roomId = Integer.parseInt(request.getParameter("roomId"));
+            User user = uDao.getUserById(userId);
+            Room room = rDao.getRoomById(roomId);
+            request.setAttribute("userLogin", user);
+            request.setAttribute("room", room);
+            request.getRequestDispatcher("bookingDetails.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
         }
     }
 
@@ -72,7 +88,35 @@ public class BookingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        UserDAO uDao = new UserDAO();
+        RoomDAO rDao = new RoomDAO();
+        BookingDAO bDao = new BookingDAO();
+
+        try {
+            int userId = (int) session.getAttribute("userIdLogin");
+            int roomId = Integer.parseInt(request.getParameter("roomId"));
+            User user = uDao.getUserById(userId);
+            Room room = rDao.getRoomById(roomId);
+
+            request.setAttribute("userLogin", user);
+            request.setAttribute("room", room);
+
+            String checkinDate = request.getParameter("checkinDate");
+            String checkoutDate = request.getParameter("checkoutDate");
+            
+            
+            double totalPrice = 0;
+            String message = request.getParameter("message");
+            if (bDao.booking(userId, roomId, checkinDate, checkoutDate, totalPrice, message, "pending")) {
+                request.getRequestDispatcher("payment.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("error.jsp");
+            }            
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }
     }
 
     /**

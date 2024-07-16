@@ -72,7 +72,7 @@
                 <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
                     <div class="position-sticky pt-3">
                         <div class="admin-info text-center">
-                            <i class="fas fa-user-circle fa-2x mb-2"></i>
+                            <a href="profile" class="text-decoration-none text-dark"><i class="fas fa-user-circle fa-2x mb-2"></i></a>
                             <p class="mb-0">Welcome, ${sessionScope.userFullNameLogin}</p>
                             <a href="main?action=logout" class="btn btn-sm btn-danger mt-2" onclick="">Logout</a>
                         </div>
