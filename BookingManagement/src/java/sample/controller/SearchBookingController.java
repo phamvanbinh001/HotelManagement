@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-@WebServlet(name = "UpdateBookingStatus", urlPatterns = {"/updateStatus"})
-public class UpdateBookingStatus extends HttpServlet {
+@WebServlet(name = "SearchBookingController", urlPatterns = {"/searchBooking"})
+public class SearchBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +37,10 @@ public class UpdateBookingStatus extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateBookingStatus</title>");            
+            out.println("<title>Servlet SearchBookingController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateBookingStatus at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchBookingController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
