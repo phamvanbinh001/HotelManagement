@@ -20,20 +20,22 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "MainController", urlPatterns = {"/main"})
 public class MainController extends HttpServlet {
 
-    private final String URL = "home";
+    private final String HOME = "home";
     private final String LOGIN = "login";
     private final String REGISTER = "register";
     private final String UPDATE_PROFILE = "updateProfile";
     private final String ADMIN = "admin";
     private final String LOGOUT = "logout";
     private final String ADD_ROOM = "addRoom";
+    private final String BOOKING = "booking";
+    private final String CANCEL_BOOKING = "cancelBooking";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action");
         if (action == null) {
-            request.getRequestDispatcher(URL).forward(request, response);
+            request.getRequestDispatcher(HOME).forward(request, response);
         } else {
             switch (action) {
                 case "login":
@@ -53,6 +55,15 @@ public class MainController extends HttpServlet {
                     break;
                 case "addRoom":
                     request.getRequestDispatcher(ADD_ROOM).forward(request, response);
+                    break;
+                case "booking":
+                    request.getRequestDispatcher(BOOKING).forward(request, response);
+                    break;
+                case "cancelBooking":
+                    request.getRequestDispatcher(CANCEL_BOOKING).forward(request, response);
+                    break;
+                default:
+                    request.getRequestDispatcher(HOME).forward(request, response);
                     break;
             }
         }

@@ -16,9 +16,6 @@
         <meta content="" name="keywords">
         <meta content="" name="description">
 
-        <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
-
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,21 +28,120 @@
         <!-- Libraries Stylesheet -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
         <!-- Customized Bootstrap Stylesheet -->
         <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="css/style.css" rel="stylesheet">
-        <!--        Header
-                <link rel="stylesheet" type="text/css" href="css/header.css">
-                Footer
-                <link rel="stylesheet" type="text/css" href="css/footer.css">-->
+        <link href="css/styles.css" rel="stylesheet">
+        <style>
+            .fw-medium {
+                font-weight: 500 !important;
+            }
+            .fw-semi-bold {
+                font-weight: 600 !important;
+            }
+            .back-to-top {
+                position: fixed;
+                display: none;
+                right: 45px;
+                bottom: 45px;
+                z-index: 99;
+                align-content: center;
+            }
+            /*** Spinner ***/
+            #spinner {
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity .5s ease-out, visibility 0s linear .5s;
+                z-index: 99999;
+            }
+            #spinner.show {
+                transition: opacity .5s ease-out, visibility 0s linear 0s;
+                visibility: visible;
+                opacity: 1;
+            }
+            /*** Header ***/
+            .carousel-caption {
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(15, 23, 43, .7);
+                z-index: 1;
+            }
+            .carousel-control-prev,
+            .carousel-control-next {
+                width: 10%;
+            }
+            .carousel-control-prev-icon,
+            .carousel-control-next-icon {
+                width: 3rem;
+                height: 3rem;
+            }
+            @media (max-width: 768px) {
+                #header-carousel .carousel-item {
+                    position: relative;
+                    min-height: 450px;
+                }
+                #header-carousel .carousel-item img {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .booking {
+                position: relative;
+                margin-top: -100px !important;
+                z-index: 1;
+            }
+            /*** Section Title ***/
+            .section-title {
+                position: relative;
+                display: inline-block;
+            }
+            .section-title::before {
+                position: absolute;
+                content: "";
+                width: 45px;
+                height: 2px;
+                top: 50%;
+                left: -55px;
+                margin-top: -1px;
+                background: var(--primary);
+            }
+            .section-title::after {
+                position: absolute;
+                content: "";
+                width: 45px;
+                height: 2px;
+                top: 50%;
+                right: -55px;
+                margin-top: -1px;
+                background: var(--primary);
+            }
+            .section-title.text-start::before,
+            .section-title.text-end::after {
+                display: none;
+            }
+            .newsletter {
+                position: relative;
+                z-index: 1;
+            }
+            .text-luxury {
+                color: #34c481 !important
+            }
+            .bg-luxury {
+                background-color: #34c481 !important;
+            }
+            .footer {
+                margin-top: -110px;
+                padding-top: 150px;
+            }
+        </style>
     </head>
-
     <body>
         <div class="container-xxl bg-white p-0">
             <!-- Spinner Start -->
@@ -212,7 +308,7 @@
                     </div>
                     <div class="row g-4">
                         <c:forEach var="p" items="${requestScope.roomList}">
-                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div id="room${p.roomId}" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="room-item shadow rounded overflow-hidden">
                                     <div class="position-relative">
                                         <img class="img-fluid" src="${p.imageUrl}" alt="Our room">
@@ -243,9 +339,12 @@
                                             <small><i class="fa fa-wifi text-primary me-2"></i>Wifi</small>
                                         </div>
                                         <p class="text-body mb-3">${p.amenitiesDescription}</p>
-                                        <div class="d-flex justify-content-between">
-                                            <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
-                                            <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
+                                        <div class="d-flex justify-content-end">
+                                            <form action="main" method="get">
+                                                <input type="hidden" name="roomId" value="${p.roomId}">
+                                                <input type="hidden" name="action" value="booking">
+                                                <button class="btn btn-sm btn-dark rounded py-2 px-4" type="submit">Book Now</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -294,14 +393,15 @@
 
 
         <!-- Template Javascript -->
+        <script src="js/main.js">
+        </script>
         <script>
             window.onload = function () {
             <c:if test="${not empty param.login or not empty login}">
                 openPopupLogin();
             </c:if>
             };
-        </script>
-        <script src="js/main.js"></script>
+        </script>        
         <jsp:include page="modal.jsp"/>
     </body>
 </html>

@@ -76,7 +76,12 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        
+        if (session.getAttribute("userIdLogin") != null || session.getAttribute("userFullNameLogin") != null) {
+            response.sendRedirect("home");
+        }
+        request.getRequestDispatcher("register.jsp").forward(request, response);
     }
 
     /**

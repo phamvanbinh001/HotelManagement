@@ -3,7 +3,7 @@
 <div class="container-fluid bg-dark px-0">
     <div class="row gx-0">
         <div class="col-lg-3 bg-dark d-none d-lg-block">
-            <a href="home.jsp" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+            <a href="home" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                 <h1 class="m-0 text-primary text-uppercase">Xom Nha La</h1>
             </a>
         </div>
@@ -24,7 +24,7 @@
                         <div class="d-inline-flex align-items-center py-2">
                             <a href="#" class="me-3 text-decoration-none text-primary" onclick="openPopupLogin()">Login</a>
                             <span class="me-3 text-primary">|</span>
-                            <a href="register.jsp" class="me-3 text-decoration-none text-primary">Register</a>
+                            <a href="register" class="me-3 text-decoration-none text-primary">Register</a>
                         </div>
                     </c:if>
                     <c:if test="${sessionScope.userFullNameLogin != null}">
@@ -51,17 +51,10 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="#" class="nav-item nav-link active">Home</a>
-                        <a href="#about-page" class="nav-item nav-link">About</a>
-                        <a href="#room-page" class="nav-item nav-link">Rooms</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="booking.jsp" class="dropdown-item">Booking</a>
-                                <a href="team.jsp" class="dropdown-item">Our Team</a>
-                                <a href="testimonial.jsp" class="dropdown-item">Testimonial</a>
-                            </div>
-                        </div>
+                        <a href="home#" class="nav-item nav-link">Home</a>
+                        <a href="home#about-page" class="nav-item nav-link">About</a>
+                        <a href="home#room-page" class="nav-item nav-link">Rooms</a>
+                        <a href="viewBooking" class="nav-item nav-link">Bookings</a>
                         <a href="#footer-page" class="nav-item nav-link">Contact</a>
                     </div>
                 </div>

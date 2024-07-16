@@ -6,19 +6,20 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.booking.BookingDAO;
 
 /**
  *
- * @author ADMIN
+ * @author traut
  */
-@WebServlet(name = "AddNewHotelController", urlPatterns = {"/addNewHotel"})
-public class AddNewHotelController extends HttpServlet {
+@WebServlet(name = "CancelBookingController", urlPatterns = {"/cancelBooking"})
+public class CancelBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,17 +33,18 @@ public class AddNewHotelController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddNewHotelController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddNewHotelController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        BookingDAO dao = new BookingDAO();
+        
+        if (request.getParameter("bookingId") == null) {
+            response.sendRedirect("error.jsp");
+        }
+        int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+        try {
+            String rs = String.valueOf(dao.cancelBooking(bookingId));
+            response.sendRedirect("viewBooking?rs=" + rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
         }
     }
 
