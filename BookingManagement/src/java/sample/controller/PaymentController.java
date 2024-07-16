@@ -6,7 +6,6 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.booking.BookingDAO;
+import sample.payment.PaymentDAO;
 import sample.room.Room;
 import sample.room.RoomDAO;
 import sample.user.User;
@@ -21,10 +21,10 @@ import sample.user.UserDAO;
 
 /**
  *
- * @author ADMIN
+ * @author traut
  */
-@WebServlet(name = "BookingController", urlPatterns = {"/booking"})
-public class BookingController extends HttpServlet {
+@WebServlet(name = "PaymentController", urlPatterns = {"/payment"})
+public class PaymentController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,24 +38,25 @@ public class BookingController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        doGet
         HttpSession session = request.getSession();
         UserDAO uDao = new UserDAO();
         RoomDAO rDao = new RoomDAO();
-        
-        if (session.getAttribute("userIdLogin") == null) {
-            response.sendRedirect("home?login=yes");
-            return;
-        }
+        BookingDAO bDao = new BookingDAO();
 
         try {
             int userId = (int) session.getAttribute("userIdLogin");
-            int roomId = Integer.parseInt(request.getParameter("roomId"));
+            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
             User user = uDao.getUserById(userId);
-            Room room = rDao.getRoomById(roomId);
+
             request.setAttribute("userLogin", user);
-            request.setAttribute("room", room);
-            request.getRequestDispatcher("bookingDetails.jsp").forward(request, response);
+
+            String checkinDate = request.getParameter("checkinDate");
+            String checkoutDate = request.getParameter("checkoutDate");
+
+            double totalPrice = 0;
+            String message = request.getParameter("message");
+            request.setAttribute("booking", bDao.getBookingById(bookingId));
+            request.getRequestDispatcher("payment.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
@@ -90,30 +91,20 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserDAO uDao = new UserDAO();
-        RoomDAO rDao = new RoomDAO();
-        BookingDAO bDao = new BookingDAO();
+        PaymentDAO pDao = new PaymentDAO();
+        BookingDAO bDAO = new BookingDAO();
 
         try {
             int userId = (int) session.getAttribute("userIdLogin");
-            int roomId = Integer.parseInt(request.getParameter("roomId"));
-            User user = uDao.getUserById(userId);
-            Room room = rDao.getRoomById(roomId);
-
-            request.setAttribute("userLogin", user);
-            request.setAttribute("room", room);
-
-            String checkinDate = request.getParameter("checkinDate");
-            String checkoutDate = request.getParameter("checkoutDate");
-            
-            
-            double totalPrice = 0;
-            String message = request.getParameter("message");
-            if (bDao.booking(userId, roomId, checkinDate, checkoutDate, totalPrice, message, "pending")) { 
-                request.setAttribute("booking", bDao.getTopBooking(userId));
-                request.getRequestDispatcher("payment.jsp").forward(request, response);
+            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
+            String paymentMethod = request.getParameter("paymentMethod");
+            double amount = Double.parseDouble(request.getParameter("amount"));
+            if (pDao.pay(bookingId, amount, paymentMethod)) {
+                response.sendRedirect("viewBooking?pay=true");
+                bDAO.completeBooking(bookingId);
             } else {
-                response.sendRedirect("error.jsp");
-            }            
+                response.sendRedirect("viewBooking?pay=false");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");

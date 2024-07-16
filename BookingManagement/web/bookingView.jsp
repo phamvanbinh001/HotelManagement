@@ -114,7 +114,7 @@
                                                     </span>
                                                 </c:if>                                                
                                             </div>
-                                            <form action="main" method="post" class="col-md-3 text-end">
+                                            <form action="main" method="get" class="col-md-3 text-end">
                                                 <input type="hidden" name="bookingId" value="${booking.bookingId}">
                                                 <c:if test="${booking.checkinDate.before(currentDate)}">
                                                     <a href="bookingDetails?id=${booking.bookingId}" class="btn btn-sm btn-primary rounded py-2 px-5">View Details</a>  
@@ -128,7 +128,7 @@
                                                         <a href="bookingDetails?id=${booking.bookingId}" class="btn btn-sm btn-primary rounded py-2 px-5">View Details</a>                                                    
                                                     </c:if>
                                                     <c:if test="${booking.status == 'pending'}">
-                                                        <a href="checkout?id=${booking.bookingId}" class="btn btn-sm btn-dark rounded py-2 px-3 mt-2">Proceed to Payment</a>
+                                                        <button type="submit" class="btn btn-sm btn-dark rounded py-2 px-3 mt-2" name="action" value="payment">Proceed to Payment</button>
                                                     </c:if>
                                                 </c:if>    
                                             </form>                                            
@@ -182,6 +182,16 @@
             </script>
         </c:if>
         <c:if test="${param.rs == 'false'}">
+            <script>
+                showErrorModal("An error has occurred!");
+            </script>
+        </c:if>
+        <c:if test="${param.pay == 'true'}">
+            <script>
+                showSuccessModal("Payment successful!");
+            </script>
+        </c:if>
+        <c:if test="${param.pay == 'false'}">
             <script>
                 showErrorModal("An error has occurred!");
             </script>

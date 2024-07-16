@@ -22,8 +22,89 @@ public class BookingDAO {
 
     private final String GET_BOOKING_LIST = "SELECT * FROM Bookings b JOIN Rooms r ON b.roomId = r.roomId WHERE userId = ? ORDER BY b.bookingDate DESC";
     private final String CANCEL_BOOKING = "UPDATE Bookings SET status = 'canceled' WHERE bookingId = ?";
+    private final String COMPLETE_BOOKING = "UPDATE Bookings SET status = 'completed' WHERE bookingId = ?";
     private final String BOOKING = "INSERT INTO Bookings (userId, roomId, checkinDate, checkoutDate, totalPrice, message, status)"
             + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private final String GET_TOP_BOOKING = "SELECT TOP 1 * FROM Bookings b JOIN Rooms r ON b.roomId = r.roomId WHERE userId = ? ORDER BY bookingId DESC";
+    private final String GET_BOOKING_BY_ID = "SELECT * FROM Bookings b JOIN Rooms r ON b.roomId = r.roomId WHERE bookingId = ?";
+    
+    public Booking getBookingById(int bookingId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtils.getConnection();
+            ps = connection.prepareStatement(GET_BOOKING_BY_ID);
+            ps.setInt(1, bookingId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int userId = rs.getInt(2);                
+                int roomId = rs.getInt(3);
+                Date checkinDate = rs.getDate(4);
+                Date checkoutDate = rs.getDate(5);
+                double totalPrice = rs.getDouble(6);
+                Date bookingDate = rs.getDate(7);
+                String message = rs.getString(8);
+                String status = rs.getString(9);
+                String roomNumber = rs.getString("roomNumber");
+                String imageUrl = rs.getString("imageUrl");
+
+                return (new Booking(bookingId, userId, roomId, checkinDate, checkoutDate, totalPrice, bookingDate, message, status, roomNumber, imageUrl));
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
+    
+    public Booking getTopBooking(int userId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtils.getConnection();
+            ps = connection.prepareStatement(GET_TOP_BOOKING);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int bookingId = rs.getInt(1);                
+                int roomId = rs.getInt(3);
+                Date checkinDate = rs.getDate(4);
+                Date checkoutDate = rs.getDate(5);
+                double totalPrice = rs.getDouble(6);
+                Date bookingDate = rs.getDate(7);
+                String message = rs.getString(8);
+                String status = rs.getString(9);
+                String roomNumber = rs.getString("roomNumber");
+                String imageUrl = rs.getString("imageUrl");
+
+                return (new Booking(bookingId, userId, roomId, checkinDate, checkoutDate, totalPrice, bookingDate, message, status, roomNumber, imageUrl));
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return null;
+    }
     
     public boolean booking(int userId, int roomId, String checkinDate, 
             String checkoutDate, double totalPrice, String message, String status) throws SQLException {
@@ -65,6 +146,31 @@ public class BookingDAO {
         try {
             connection = DBUtils.getConnection();
             ps = connection.prepareStatement(CANCEL_BOOKING);
+            ps.setInt(1, bookingId);
+            return ps.executeUpdate() > 0;            
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+        return false;
+    }
+    
+    public boolean completeBooking(int bookingId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtils.getConnection();
+            ps = connection.prepareStatement(COMPLETE_BOOKING);
             ps.setInt(1, bookingId);
             return ps.executeUpdate() > 0;            
         } catch (ClassNotFoundException | SQLException e) {
