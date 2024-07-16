@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Product Details</title>
+        <title>Room Details</title>
         <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -59,39 +59,42 @@
             </button>
         </a>
         <div class="container">
-            <c:if test='${param.target.equals("updateRoom")}'>
+            <c:if test='${param.target.equals("update")}'>
                 <h2 class="mb-4">Room Details</h2>
-                <c:set var="room" value="${requestScope.room}"></c:set>
+                <c:set var="room" value="${requestScope.room}">                    
+                </c:set>
             </c:if>
-            <c:if test='${param.target.equals("addRoom") || param.target == null}'>
+            <c:if test='${param.target.equals("add") || param.target == null}'>
                 <h2 class="mb-4">Add New Room</h2>
             </c:if>
             <form action="main" method="post">          
-                <input type="hidden" name="id" value="${room.roomId}">
-                <input type="hidden" name="action" value="addRoom">
+                <input type="hidden" name="roomId" value="${room.roomId}">
+
+                
+
                 <div class="mb-3">
                     <label for="roomNumber" class="form-label">Room Number</label>
                     <input type="text" maxlength="5" class="form-control" id="roomNumber" name="roomNumber" value="${room.roomNumber}" required>
                 </div>
-                
+
                 <div class="mb-3">
                     <label for="singleBeds" class="form-label">Number of single beds</label>
                     <input type="number" min="0" class="form-control" id="singleBeds" name="singleBeds" value="${room.singleBeds}" required>
                 </div>
-                
+
                 <div class="mb-3">
                     <label for="doubleBeds" class="form-label">Number of double beds</label>
                     <input type="number" min="0" class="form-control" id="doubleBeds" name="doubleBeds" value="${room.doubleBeds}" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="pricePerDay" class="form-label">Price/day (VND)</label>
+                    <label for="pricePerDay" class="form-label">Price/day ($)</label>
                     <input type="number" class="form-control" id="pricePerDay" name="pricePerDay" value="${room.pricePerDay}" required>
                 </div>
-                
+
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="description" name="description" value="${room.description}" required>
+                    <input type="text" class="form-control" id="description" name="description" value="${room.amenitiesDescription}" required>
                 </div>
 
                 <div class="mb-3">
@@ -103,7 +106,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="isAvailable" class="form-label">Available</label>
+                    <label for="isAvailable" class="form-label">Is available</label>
                     <select class="form-select" id="isAvailable" name="isAvailable">
                         <option value="true">Available</option>
                         <option value="false">Not Available</option>
@@ -112,31 +115,29 @@
 
                 <div class="mb-3">
                     <label for="imageUrl" class="form-label">Image URL</label>
-                    <input type="url" class="form-control" id="imageUrl" name="imageUrl" value="${room.imageUrl}">
+                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" value="${room.imageUrl}">
                 </div>
 
                 <input type="hidden" name="target" value="${param.target}">
 
                 <c:if test='${param.target.equals("update")}'>
-                    <button type="submit" class="btn btn-primary">Update Product</button>
+                    <button type="submit" class="btn btn-primary" name="action" value="updateRoom">Update Room</button>
                 </c:if>
                 <c:if test='${param.target.equals("add") || param.target == null}'>
-                    <input type="hidden" name="product" value="1">
-                    <button type="submit" class="btn btn-primary">Add New Product</button>
-                </c:if>
-                <!--<a href="admin" class="btn btn-secondary">Back to Admin Panel</a>-->
+                    <button type="submit" class="btn btn-primary" name="action" value="createRoom">Add New Room</button>
+                </c:if>        
             </form>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <%@include file="modal.jsp"%>
         <c:if test="${param.result == 'update'}">
             <script>
-                showSuccessModal("Update product successfully!");
+                showSuccessModal("Update Room Successfully!");
             </script>
         </c:if>
         <c:if test="${param.result == 'add'}">
             <script>
-                showSuccessModal("Add product successfully!");
+                showSuccessModal("Added Room Successfully!");
             </script>
         </c:if>
     </body>

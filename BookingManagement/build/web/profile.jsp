@@ -121,6 +121,15 @@
                                                 </div>
                                             </div>
                                             <div class="mb-3 row">
+                                                <label for="role" class="col-sm-3 col-form-label">Your role</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" name="role" id="role" value="${p.role}" readonly>
+                                                </div>
+                                                <div class="text-danger mt-2" style="display: none; ${usernameErrStyle}">
+                                                    Username is already in use!
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
                                                 <label for="password" class="col-sm-3 col-form-label">New Password</label>
                                                 <div class="col-sm-9">
                                                     <input type="password" class="form-control" name="password" id="password">

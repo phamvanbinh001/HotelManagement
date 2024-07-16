@@ -35,7 +35,6 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,19 +44,20 @@ public class LoginController extends HttpServlet {
         HttpSession session = request.getSession();
         UserDAO dao = new UserDAO();
         User user = dao.login(usernameOrEmail, password);
-        
+
         //tra ve trang chon action
         if (src == null || src.isEmpty()) {
             src = "home";
         } else {
             src = src.replaceFirst(".jsp", "");
         }
-        
+
         if (user != null && "admin".equals(user.getRole())) {
-            src = "admin";
+            session.setAttribute("role", "admin");
         }
- 
+
         if (user != null && user.isIsAvailable()) {
+            session.setAttribute("userLogin", user);
             session.setAttribute("userFullNameLogin", user.getFullName());
             session.setAttribute("userIdLogin", user.getUserId());
             response.sendRedirect(src);

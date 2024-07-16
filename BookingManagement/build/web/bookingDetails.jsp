@@ -44,12 +44,13 @@
                     </c:set>
                     <c:set var="user" value="${requestScope.userLogin}">                    
                     </c:set>
+                    <c:set var="booking" value="${requestScope.booking}">                    
+                    </c:set>
                     <div class="row g-5">
                         <div class="col-lg-6">
                             <div class="wow fadeInUp" data-wow-delay="0.2s">
-                                <h2>Room Details</h2>
-                                <img src="${empty room.imageUrl ? room.imageUrl : 'img/room-default.jpg'}" alt="Room Image" class="img-fluid rounded mb-4">
-                                <h4>Room ${room.roomNumber}</h4>
+                                <h2>Room ${room.roomNumber}</h2>
+                                <img src="${empty room.imageUrl ? room.imageUrl : 'img/room-default.jpg'}" alt="Room Image" class="img-fluid rounded mb-4">                                
                                 <p><strong>Type:</strong> ${room.type}</p>
                                 <p><strong>Price per Day:</strong> $${room.pricePerDay}</p>
                                 <p><strong>Beds:</strong> ${room.doubleBeds} Double, ${room.singleBeds} Single</p>
@@ -59,8 +60,8 @@
                         <div class="col-lg-6 py-5">
                             <div class="wow fadeInUp" data-wow-delay="0.2s">
                                 <form action="main" method="post">
-                                    <input type="hidden" name="action" value="booking">
                                     <input type="hidden" name="roomId" value="${room.roomId}">
+                                    <input type="hidden" name="id" value="${booking.bookingId}">
                                     <input type="hidden" name="roomNumber" value="${room.roomNumber}">
                                     <div class="row g-3">
                                         <div class="col-md-6">
@@ -77,24 +78,30 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating date" id="date3" data-target-input="nearest">
-                                                <input type="date" class="form-control datetimepicker-input" id="checkin" name="checkinDate" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" required onchange="updateCheckoutMinDate()" />
+                                                <input type="date" class="form-control datetimepicker-input" id="checkin" name="checkinDate" placeholder="Check In" data-target="#date3" data-toggle="datetimepicker" value="${booking.checkinDate}" required onchange="updateCheckoutMinDate()" />
                                                 <label for="checkin">Check In</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating date" id="date4" data-target-input="nearest">
-                                                <input type="date" class="form-control datetimepicker-input" id="checkout" name="checkoutDate" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" required />
+                                                <input type="date" class="form-control datetimepicker-input" id="checkout" name="checkoutDate" placeholder="Check Out" data-target="#date4" data-toggle="datetimepicker" value="${booking.checkoutDate}" required />
                                                 <label for="checkout">Check Out</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating">
-                                                <textarea class="form-control" placeholder="Special Request" id="message" name="message" style="height: 100px"></textarea>
+                                                <textarea class="form-control" placeholder="Special Request" id="message" name="message" style="height: 100px">${booking.message}</textarea>
                                                 <label for="message">Special Request</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+                                            <c:if test="${requestScope.target == 'update'}">
+                                                <button class="btn btn-primary w-100 py-3" type="submit" name="action" value="bookingDetails">Update Booking Details</button>
+                                                <a href="viewBooking" class="btn btn-secondary w-100 py-1 mt-3" type="submit">Back to view Bookings</a>
+                                            </c:if>
+                                            <c:if test="${requestScope.target == null}">
+                                                <button class="btn btn-primary w-100 py-3" type="submit" name="action" value="booking">Book Now</button>
+                                            </c:if>                                            
                                         </div>
                                     </div>
                                 </form>
@@ -107,6 +114,7 @@
 
             <!-- Include your footer here -->
             <jsp:include page="footer.jsp" />
+            <jsp:include page="modal.jsp" />
         </div>
 
         <!-- JavaScript Libraries -->
@@ -114,11 +122,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js">
-
         </script>
 
         <!-- Template Javascript -->
-
         <script>
             // Initialize WOW.js
             new WOW().init();
@@ -130,10 +136,20 @@
                 });
             });
 
-            // Function to update the minimum date for checkout
+            function getCurrentDate() {
+                const today = new Date();
+                return today.toISOString().split('T')[0];
+            }
+
             function updateCheckoutMinDate() {
-                var checkinDate = document.getElementById('checkin').value;
+                var checkinInput = document.getElementById('checkin');
                 var checkoutInput = document.getElementById('checkout');
+                var currentDate = getCurrentDate();
+
+                // Set the minimum date for check-in to be today
+                checkinInput.min = currentDate;
+
+                var checkinDate = checkinInput.value;
 
                 if (checkinDate) {
                     // Set the minimum date for checkout to be the day after check-in
@@ -155,12 +171,29 @@
             document.querySelector('form').addEventListener('submit', function (event) {
                 var checkinDate = new Date(document.getElementById('checkin').value);
                 var checkoutDate = new Date(document.getElementById('checkout').value);
+                var currentDate = new Date(getCurrentDate());
 
-                if (checkoutDate <= checkinDate) {
+                if (checkinDate < currentDate) {
+                    event.preventDefault();
+                    alert('Check-in date cannot be earlier than today');
+                } else if (checkoutDate <= checkinDate) {
                     event.preventDefault();
                     alert('Check-out date must be after check-in date');
                 }
             });
+
+            // Call updateCheckoutMinDate when the page loads
+            document.addEventListener('DOMContentLoaded', updateCheckoutMinDate);
         </script>
+        <c:if test="${update == 'true'}">
+            <script>
+                showSuccessModal("Successfully!");
+            </script>
+        </c:if>
+        <c:if test="${update == 'false'}">
+            <script>
+                showErrorModal("Error!");
+            </script>
+        </c:if>
     </body>
 </html>

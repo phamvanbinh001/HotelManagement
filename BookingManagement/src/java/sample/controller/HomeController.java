@@ -74,7 +74,22 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        RoomDAO dao = new RoomDAO();
+        try {
+            int singleBeds = request.getParameter("singleBeds") == null 
+                    || request.getParameter("singleBeds").isEmpty() ? -1 : Integer.parseInt(request.getParameter("singleBeds"));
+            int doubleBeds = request.getParameter("doubleBeds") == null 
+                    || request.getParameter("doubleBeds").isEmpty() ? -1 : Integer.parseInt(request.getParameter("doubleBeds"));
+            String type = request.getParameter("type");
+            List<Room> roomList = dao.filter(singleBeds, doubleBeds, type);
+            request.setAttribute("roomList", roomList);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }       
+        request.setAttribute("scrollTo", "room-page");
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     /**

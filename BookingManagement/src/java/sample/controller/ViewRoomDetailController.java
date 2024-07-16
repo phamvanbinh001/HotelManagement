@@ -6,24 +6,24 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.booking.Booking;
-import sample.booking.BookingDAO;
+import sample.room.Room;
+import sample.room.RoomDAO;
 
 /**
  *
- * @author traut
+ * @author ADMIN
  */
-@WebServlet(name = "ViewBookingController", urlPatterns = {"/viewBooking"})
-public class ViewBookingController extends HttpServlet {
+@WebServlet(name = "ViewRoomDetailController", urlPatterns = {"/roomDetails"})
+public class ViewRoomDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,37 +35,15 @@ public class ViewBookingController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        BookingDAO dao = new BookingDAO();
-
-        if (session.getAttribute("userFullNameLogin") == null) {
-            response.sendRedirect("home?login=yes");
-        } else {
-            try {
-                int userIdLogin = (int) session.getAttribute("userIdLogin");
-                List<Booking> list = dao.getBookingList(userIdLogin);
-                request.setAttribute("bookingList", list);
-                // Lấy ngày hiện tại
-                java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-
-                // Tạo một đối tượng Calendar và set ngày hiện tại
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(currentDate);
-
-                // Giảm đi một ngày
-                calendar.add(Calendar.DAY_OF_MONTH, -1);
-
-                // Lấy ngày hôm trước
-                currentDate = new java.sql.Date(calendar.getTimeInMillis());
-                request.setAttribute("currentDate", currentDate);
-                request.getRequestDispatcher("bookingView.jsp").forward(request, response);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                response.sendRedirect("error.jsp");
-            }
+        RoomDAO dao = new RoomDAO();
+        if ( !(request.getParameter("id") == null) && !request.getParameter("id").isEmpty()) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Room room = dao.getRoomById(id);
+            request.setAttribute("room", room);
         }
+        request.getRequestDispatcher("roomDetails.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -80,7 +58,12 @@ public class ViewBookingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewRoomDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        }
     }
 
     /**
@@ -94,7 +77,12 @@ public class ViewBookingController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewRoomDetailController.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        }
     }
 
     /**

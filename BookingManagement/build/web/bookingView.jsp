@@ -98,17 +98,17 @@
                                                         checked out
                                                     </span>
                                                 </c:if>
-                                                <c:if test="${booking.checkoutDate.before(currentDate) && booking.status == 'pending'}">
+                                                <c:if test="${booking.checkinDate.before(currentDate) && booking.status == 'pending'}">
                                                     <span class="badge bg-secondary p-2">
                                                         time out
                                                     </span>
                                                 </c:if>
-                                                <c:if test="${booking.checkoutDate.before(currentDate) && booking.status == 'canceled'}">
+                                                <c:if test="${booking.checkinDate.before(currentDate) && booking.status == 'canceled'}">
                                                     <span class="badge bg-danger p-2">
                                                         canceled
                                                     </span>
                                                 </c:if>
-                                                <c:if test="${!booking.checkoutDate.before(currentDate)}">
+                                                <c:if test="${!booking.checkinDate.before(currentDate)}">
                                                     <span class="badge bg-${booking.status == 'completed' ? 'success' : booking.status == 'pending' ? 'warning' : 'danger'} p-2">
                                                         ${booking.status}
                                                     </span>
