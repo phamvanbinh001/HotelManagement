@@ -37,26 +37,33 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8">
+                            <c:set var="room" value="${requestScope.room}">                                    
+                            </c:set>
+                            <c:set var="booking" value="${requestScope.booking}">                                    
+                            </c:set>
+                            <c:set var="user" value="${requestScope.userLogin}">                                    
+                            </c:set>
                             <h2 class="mb-4">Checkout</h2>
-                            <form action="processCheckout" method="post">
+                            <form action="main" method="post">
                                 <input type="hidden" name="bookingId" value="${booking.bookingId}">
-
+                                <input type="hidden" name="amount" value="${booking.totalPrice}">
+                                <input type="hidden" name="action" value="payment">
                                 <h4 class="mb-3">Select Payment Method</h4>
                                 <div class="mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="creditCard" checked>
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="Credit Card" checked>
                                         <label class="form-check-label" for="creditCard">
                                             Credit Card
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="PayPal">
                                         <label class="form-check-label" for="paypal">
                                             PayPal
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="bankTransfer">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="Bank Transfer">
                                         <label class="form-check-label" for="bankTransfer">
                                             Bank Transfer
                                         </label>
@@ -66,16 +73,15 @@
                                 <h4 class="mb-3">Contact Information</h4>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <input type="email" class="form-control" id="email" name="email" value="${user.email}" readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    <input type="tel" class="form-control" id="phone" name="phone" pattern="^[+]?[0-9]{10,11}$" required>
                                 </div>
-                                
-                                <button type="button" class="btn btn-primary" onclick="document.querySelector('form').dispatchEvent(new Event('submit'))">Confirm Booking</button>
-                                <button type="submit" class="btn btn-secondary" name="action" value="addPendingBooking">Do it later</button>
-                            </form>
+                                <button type="submit" class="btn btn-primary">Confirm Booking</button> 
+                                <a href="viewBooking" class="btn btn-secondary" name="action" value="addPendingBooking">Do it later</a>
+                            </form>                                
                         </div>
                         <div class="col-lg-4">
                             <h2 class="mb-4">Booking Summary</h2>
@@ -116,7 +122,12 @@
                         <div class="modal-body">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-6">
+                                        <h4>Customer Details</h4>
+                                        <p><strong>Customer ID:</strong> ${sessionScope.userIdLogin}</p>
+                                        <p><strong>Customer name:</strong> ${sessionScope.userFullNameLogin}</p>
+                                    </div>
+                                    <div class="col-6">
                                         <h4>Booking Details</h4>
                                         <p><strong>Room:</strong> ${booking.roomNumber}</p>
                                         <p><strong>Check-in:</strong> <fmt:formatDate value="${booking.checkinDate}" pattern="yyyy/MM/dd"/></p>
@@ -162,32 +173,6 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js">
-        </script>
-        <script>
-            var invoiceModal;
-
-            document.querySelector('form').addEventListener('submit', function (e) {
-                e.preventDefault(); // Ngăn form submit theo cách thông thường
-
-                // Lấy phương thức thanh toán đã chọn
-                var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-                document.getElementById('paymentMethodDisplay').textContent = paymentMethod;
-
-                // Hiển thị modal
-                invoiceModal = new bootstrap.Modal(document.getElementById('invoiceModal'));
-                invoiceModal.show();
-            });
-
-            // Hàm để chuyển hướng
-            function redirectToViewBooking() {
-                window.location.href = 'viewBooking';
-            }
-
-            // Event listener cho nút Close
-            document.getElementById('closeInvoiceBtn').addEventListener('click', redirectToViewBooking);
-
-            // Event listener cho sự kiện đóng modal
-            document.getElementById('invoiceModal').addEventListener('hidden.bs.modal', redirectToViewBooking);
         </script>
         <script>
             function printInvoice() {

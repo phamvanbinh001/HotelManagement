@@ -99,3 +99,5 @@ select * from Bookings
 update Bookings set status = 'completed' where bookingId = 6
 UPDATE Bookings SET status = 'pending' 
 select * from Bookings
+
+select top 1 *  from Bookings b JOIN Rooms r ON b.roomId = r.roomId order by bookingId desc
