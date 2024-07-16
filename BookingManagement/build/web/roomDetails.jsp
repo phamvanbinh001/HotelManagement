@@ -61,14 +61,14 @@
         <div class="container">
             <c:if test='${param.target.equals("updateRoom")}'>
                 <h2 class="mb-4">Room Details</h2>
-                <c:set var="room" value="${requestScope.room}"></c:set>
+                <c:set var="room" value="${requestScope.rooms}"></c:set>
             </c:if>
             <c:if test='${param.target.equals("addRoom") || param.target == null}'>
                 <h2 class="mb-4">Add New Room</h2>
             </c:if>
             <form action="main" method="post">          
-                <input type="hidden" name="id" value="${room.roomId}">
-                <input type="hidden" name="action" value="addRoom">
+                <input type="hidden" name="roomId" value="${room.roomId}">
+                <input type="hidden" name="action" value="updateRoom">
                 <div class="mb-3">
                     <label for="roomNumber" class="form-label">Room Number</label>
                     <input type="text" maxlength="5" class="form-control" id="roomNumber" name="roomNumber" value="${room.roomNumber}" required>
@@ -85,13 +85,13 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="pricePerDay" class="form-label">Price/day (VND)</label>
+                    <label for="pricePerDay" class="form-label">Price/day ($)</label>
                     <input type="number" class="form-control" id="pricePerDay" name="pricePerDay" value="${room.pricePerDay}" required>
                 </div>
                 
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="description" name="description" value="${room.description}" required>
+                    <input type="text" class="form-control" id="description" name="description" value="${room.amenitiesDescription}" required>
                 </div>
 
                 <div class="mb-3">
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="isAvailable" class="form-label">Available</label>
+                    <label for="isAvailable" class="form-label">Is available</label>
                     <select class="form-select" id="isAvailable" name="isAvailable">
                         <option value="true">Available</option>
                         <option value="false">Not Available</option>
@@ -112,7 +112,7 @@
 
                 <div class="mb-3">
                     <label for="imageUrl" class="form-label">Image URL</label>
-                    <input type="url" class="form-control" id="imageUrl" name="imageUrl" value="${room.imageUrl}">
+                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" value="${room.imageUrl}">
                 </div>
 
                 <input type="hidden" name="target" value="${param.target}">

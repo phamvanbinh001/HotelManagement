@@ -6,27 +6,19 @@
 package sample.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.booking.Booking;
-import sample.booking.BookingDAO;
-import sample.room.Room;
-import sample.room.RoomDAO;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "AdminController", urlPatterns = {"/admin"})
-public class AdminController extends HttpServlet {
+@WebServlet(name = "SearchBookingController", urlPatterns = {"/searchBooking"})
+public class SearchBookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,19 +30,20 @@ public class AdminController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        List<Booking> listBooking = new ArrayList<>();
-        BookingDAO bookingDao = new BookingDAO();
-        listBooking = bookingDao.getBookingList(1);
-        
-        List<Room> listRoom = new ArrayList<>();
-        RoomDAO roomDao = new RoomDAO();
-        listRoom = roomDao.getRoomList();
-        
-        request.setAttribute("rooms", listRoom);
-        request.setAttribute("bookingList", listBooking);
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet SearchBookingController</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet SearchBookingController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -65,12 +58,7 @@ public class AdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("error.jsp");
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -84,12 +72,7 @@ public class AdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("error.jsp");
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -31,6 +31,9 @@ public class MainController extends HttpServlet {
     private final String CANCEL_BOOKING = "cancelBooking";
     private final String VIEW_ROOM_DETAILS = "viewRoomDetails";
     private final String PAYMENT = "payment";
+    private final String UPDATE_ROOM = "updateRoom";
+    private final String SEARCH_ROOM = "searchRoom";
+    private final String SEARCH_BOOKING = "searchBooking";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -69,6 +72,15 @@ public class MainController extends HttpServlet {
                     break;
                 case "payment":
                     request.getRequestDispatcher(PAYMENT).forward(request, response);
+                    break;
+                case "updateRoom":
+                    request.getRequestDispatcher(UPDATE_ROOM).forward(request, response);
+                    break;
+                case "searchRoom":
+                    request.getRequestDispatcher(SEARCH_ROOM).forward(request, response);
+                    break;
+                case "searchBooking":
+                    request.getRequestDispatcher(SEARCH_BOOKING).forward(request, response);
                     break;
                 default:
                     request.getRequestDispatcher(HOME).forward(request, response);
