@@ -110,6 +110,7 @@ public class BookingController extends HttpServlet {
             String message = request.getParameter("message");
             if (bDao.booking(userId, roomId, checkinDate, checkoutDate, totalPrice, message, "pending")) { 
                 request.setAttribute("booking", bDao.getTopBooking(userId));
+                bDao.updateBookingPrice(bDao.getTopBooking(userId).getBookingId());
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
             } else {
                 response.sendRedirect("error.jsp");

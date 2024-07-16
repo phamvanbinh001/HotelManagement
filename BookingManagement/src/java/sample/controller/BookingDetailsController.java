@@ -6,14 +6,14 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import sample.booking.Booking;
 import sample.booking.BookingDAO;
-import sample.payment.PaymentDAO;
 import sample.room.Room;
 import sample.room.RoomDAO;
 import sample.user.User;
@@ -23,8 +23,8 @@ import sample.user.UserDAO;
  *
  * @author traut
  */
-@WebServlet(name = "PaymentController", urlPatterns = {"/payment"})
-public class PaymentController extends HttpServlet {
+@WebServlet(name = "ViewBookingDetailsController", urlPatterns = {"/bookingDetails"})
+public class BookingDetailsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,26 +38,20 @@ public class PaymentController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        UserDAO uDao = new UserDAO();
-        RoomDAO rDao = new RoomDAO();
         BookingDAO bDao = new BookingDAO();
-
+        RoomDAO rDao = new RoomDAO();
+        UserDAO uDao = new UserDAO();
         try {
-            int userId = (int) session.getAttribute("userIdLogin");
-            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-            User user = uDao.getUserById(userId);
-
-            request.setAttribute("userLogin", user);
-
-            String checkinDate = request.getParameter("checkinDate");
-            String checkoutDate = request.getParameter("checkoutDate");
-
-            double totalPrice = 0;
-            String message = request.getParameter("message");
+            int bookingId = Integer.parseInt(request.getParameter("id"));
             bDao.updateBookingPrice(bookingId);
-            request.setAttribute("booking", bDao.getBookingById(bookingId));
-            request.getRequestDispatcher("payment.jsp").forward(request, response);
+            Booking booking = bDao.getBookingById(bookingId);
+            Room room = rDao.getRoomById(booking.getRoomId());
+            User user = uDao.getUserById((int)request.getSession().getAttribute("userIdLogin"));
+            request.setAttribute("booking", booking);
+            request.setAttribute("target", "update");
+            request.setAttribute("room", room);
+            request.setAttribute("userLogin", user);
+            request.getRequestDispatcher("bookingDetails.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
@@ -90,22 +84,28 @@ public class PaymentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        BookingDAO bDao = new BookingDAO();
+        RoomDAO rDao = new RoomDAO();
         UserDAO uDao = new UserDAO();
-        PaymentDAO pDao = new PaymentDAO();
-        BookingDAO bDAO = new BookingDAO();
-
         try {
-            int userId = (int) session.getAttribute("userIdLogin");
-            int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-            String paymentMethod = request.getParameter("paymentMethod");
-            double amount = Double.parseDouble(request.getParameter("amount"));
-            if (pDao.pay(bookingId, amount, paymentMethod)) {
-                response.sendRedirect("viewBooking?pay=true");
-                bDAO.completeBooking(bookingId);
+            int bookingId = Integer.parseInt(request.getParameter("id"));
+            String checkinDate = request.getParameter("checkinDate");
+            String checkoutDate = request.getParameter("checkoutDate");
+            String message = request.getParameter("message");
+            if (bDao.updateBooking(checkinDate, checkoutDate, message, bookingId)) {
+                bDao.updateBookingPrice(bookingId);
+                request.setAttribute("update", "true");
             } else {
-                response.sendRedirect("viewBooking?pay=false");
+                request.setAttribute("update", "false");
             }
+            Booking booking = bDao.getBookingById(bookingId);
+            Room room = rDao.getRoomById(booking.getRoomId());
+            User user = uDao.getUserById((int)request.getSession().getAttribute("userIdLogin"));
+            request.setAttribute("booking", booking);
+            request.setAttribute("target", "update");
+            request.setAttribute("room", room);
+            request.setAttribute("userLogin", user);
+            request.getRequestDispatcher("bookingDetails.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");

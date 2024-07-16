@@ -35,6 +35,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="profile">Your profile</a></li>
+                                    <c:if test="${sessionScope.role == 'admin'}">
+                                    <li><a class="dropdown-item" href="admin">Admin Center</a>
+                                    </c:if>
                                 <li><a class="dropdown-item" href="logout">Logout</a>
                                 </li>
                             </ul>

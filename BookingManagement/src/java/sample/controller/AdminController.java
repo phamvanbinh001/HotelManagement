@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.booking.Booking;
 import sample.booking.BookingDAO;
+import sample.payment.PaymentDAO;
 import sample.room.Room;
 import sample.room.RoomDAO;
 
@@ -48,6 +49,12 @@ public class AdminController extends HttpServlet {
         RoomDAO roomDao = new RoomDAO();
         listRoom = roomDao.getRoomList();
         
+        PaymentDAO payDao = new PaymentDAO();
+        double revenue = payDao.getRevenue();
+        int customers = payDao.getCusomers();
+        
+        request.setAttribute("customers", customers);
+        request.setAttribute("revenue", revenue);
         request.setAttribute("rooms", listRoom);
         request.setAttribute("bookingList", listBooking);
         request.getRequestDispatcher("admin.jsp").forward(request, response);

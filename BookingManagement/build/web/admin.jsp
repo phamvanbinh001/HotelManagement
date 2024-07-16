@@ -79,28 +79,38 @@
                         </div>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#dashboard" data-section="dashboard">
+                                <a class="nav-link active" href="admin" data-section="dashboard">
                                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#products" data-section="products">
+                                <a class="nav-link" href="#rooms" data-section="products">
                                     <i class="fa-solid fa-hotel me-2"></i></i>Rooms
                                 </a>
                             </li>
+                            <!--                            <li class="nav-item">
+                                                            <a class="nav-link" href="#users" data-section="users">
+                                                                <i class="fas fa-users me-2"></i>Users
+                                                            </a>
+                                                        </li>-->
                             <li class="nav-item">
-                                <a class="nav-link" href="#users" data-section="users">
-                                    <i class="fas fa-users me-2"></i>Users
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#orders" data-section="orders">
+                                <a class="nav-link" href="#bookings" data-section="orders">
                                     <i class="fa-solid fa-money-bill me-2"></i></i>Bookings
                                 </a>
                             </li>
                         </ul>
+                             <hr class="my-3">
+                        <!--Total Customer-->
+                        <p class="text-danger fw-bold">Total invoice: ${requestScope.customers}</p>
+                        <!--Total Customer-->
+
+                        <!--Total Revenue-->
+                        <p class="text-danger fw-bold">Total revenue:  $${requestScope.revenue} </p>
+                        <!--Total Revenue-->
+
                     </div>
                 </nav>
+
 
                 <!-- Main content -->
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
@@ -110,13 +120,13 @@
                         </section>
 
                         <!-- Bookings Section -->
-                        <section id="products" class="mb-5">
+                        <section id="bookings" class="mb-5">
                             <h3>Booking List</h3>
                             <div class="mb-3">
                                 <!--                                <a href="product-details.jsp?target=add">
                                                                     <button class="btn btn-outline-success mb-2" type="submit">Add new product</button>
                                                                 </a>-->
-                                <form action="main" method="post" class="d-flex">
+                                <form action="main" class="d-flex">
                                     <input type="hidden" name="action" value="searchBooking">
                                     <input type="hidden" name="src" value="admin.jsp">
                                     <button class="btn btn-outline-success me-2" type="submit">Search</button>
@@ -151,7 +161,7 @@
                                             </tr>
                                         </c:forEach>
                                         <c:if test="${requestScope.bookingList.size() == 0}">
-                                            <tr class="text-center"><td colspan="7">Nothing to show here</td></tr>
+                                            <tr class="text-center"><td colspan="8">Nothing to show here</td></tr>
                                         </c:if>
                                     </tbody>
                                 </table>
@@ -159,11 +169,11 @@
                         </section>
 
                         <!-- Rooms Section -->
-                        <section id="users" class="mb-5">
+                        <section id="rooms" class="mb-5">
                             <h3>Rooms</h3>
                             <div class="mb-3">
-                                <a href="room-details.jsp?target=addRoom">
-                                    <button class="btn btn-outline-success mb-2" type="submit">Add new room</button>
+                                <a href="main?action=roomDetails&id=-1&target=add">
+                                    <button class="btn btn-outline-success mb-2">Add new room</button>
                                 </a>
                                 <form action="main" class="d-flex">
                                     <input type="hidden" name="action" value="searchRoom">
@@ -203,12 +213,9 @@
                                                     </c:choose>
                                                 </td>
                                                 <td>
-                                                    <a href="main?action=viewRoomDetails&id=${p.roomId}&target=update">
+                                                    <a href="main?action=roomDetails&id=${p.roomId}&target=update">
                                                         <button class="btn btn-primary">View details/Update</button>
                                                     </a> 
-<!--                                                    <a href="roomDetails.jsp?target=updateRoom">
-                                                        <button>View detail/Update</button>
-                                                    </a>       -->
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -227,9 +234,20 @@
                 showSuccessModal("Update room details successfully !")
             </script>
         </c:if>
-            <c:if test="${param.success == 'false'}">
+        <c:if test="${param.success == 'false'}">
             <script>
                 showErrorModal("Update room details failed !")
+            </script>
+        </c:if>
+
+        <c:if test="${param.add == 'true'}">
+            <script>
+                showSuccessModal("Add New Room Successfully !")
+            </script>
+        </c:if>
+        <c:if test="${param.add == 'false'}">
+            <script>
+                showSuccessModal("Add New Room Failed !")
             </script>
         </c:if>
     </body>

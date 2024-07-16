@@ -94,10 +94,3 @@ VALUES
 (1, 3, '2024-09-10', '2024-09-15', 750.00, 'pending'),
 (1, 4, '2024-10-05', '2024-10-10', 550.00, 'canceled');
 GO
-
-select * from Bookings
-update Bookings set status = 'completed' where bookingId = 6
-UPDATE Bookings SET status = 'pending' 
-select * from Bookings
-
-select top 1 *  from Bookings b JOIN Rooms r ON b.roomId = r.roomId order by bookingId desc

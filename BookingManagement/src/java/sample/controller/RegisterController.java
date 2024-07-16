@@ -6,12 +6,16 @@
 package sample.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.user.User;
 import sample.user.UserDAO;
 
 /**
@@ -55,10 +59,15 @@ public class RegisterController extends HttpServlet {
             request.setAttribute("email", email);
             request.getRequestDispatcher("register.jsp").forward(request, response);
         } else if (dao.register(username, email, password)) {
-            session.setAttribute("userFullNameLogin", "New User");
-            session.setAttribute("userIdLogin", -1);
-            session.setAttribute("usernameLogin", username);
-            response.sendRedirect("home");
+            try {
+                User user = dao.login(username, password);
+                session.setAttribute("userFullNameLogin", "New User");
+                session.setAttribute("userIdLogin", user.getUserId());
+                session.setAttribute("usernameLogin", username);
+                response.sendRedirect("home");
+            } catch (SQLException ex) {
+                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }

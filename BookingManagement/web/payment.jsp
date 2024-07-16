@@ -91,18 +91,18 @@
                                     <p class="card-text">
                                         <small class="text-muted">
                                             <i class="fa fa-calendar text-primary me-2"></i>
-                                            Check-in: <fmt:formatDate value="${booking.checkinDate}" pattern="yyyy/MM/dd"/>
+                                            Check-in: <span id="checkinDate"><fmt:formatDate value="${booking.checkinDate}" pattern="yyyy/MM/dd"/></span>
                                         </small>
                                     </p>
                                     <p class="card-text">
                                         <small class="text-muted">
                                             <i class="fa fa-calendar text-primary me-2"></i>
-                                            Check-out: <fmt:formatDate value="${booking.checkoutDate}" pattern="yyyy/MM/dd"/>
+                                            Check-out: <span id="checkoutDate"><fmt:formatDate value="${booking.checkoutDate}" pattern="yyyy/MM/dd"/></span>
                                         </small>
                                     </p>
                                     <h6 class="mt-4">Total Amount</h6>
                                     <p class="card-text">
-                                        <strong>$${booking.totalPrice}</strong>
+                                        <strong>$<span id="totalPrice">${booking.totalPrice}</span></strong>
                                     </p>
                                 </div>
                             </div>
@@ -183,6 +183,24 @@
                 window.print();
                 document.body.innerHTML = originalContents;
                 window.location.reload();
+            }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                calculateTotalPrice();
+            });
+
+            function calculateTotalPrice() {
+                const checkinDate = new Date(document.getElementById('checkinDate').textContent);
+                const checkoutDate = new Date(document.getElementById('checkoutDate').textContent);
+                const roomPricePerDay = ${room.pricePerDay}; 
+
+                const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+                const nightsStayed = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                const totalPrice = nightsStayed * roomPricePerDay;
+
+                document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
             }
         </script>
     </body>

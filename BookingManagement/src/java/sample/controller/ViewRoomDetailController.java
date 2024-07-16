@@ -22,7 +22,7 @@ import sample.room.RoomDAO;
  *
  * @author ADMIN
  */
-@WebServlet(name = "ViewRoomDetailController", urlPatterns = {"/viewRoomDetails"})
+@WebServlet(name = "ViewRoomDetailController", urlPatterns = {"/roomDetails"})
 public class ViewRoomDetailController extends HttpServlet {
 
     /**
@@ -38,9 +38,11 @@ public class ViewRoomDetailController extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         RoomDAO dao = new RoomDAO();
-        int id = Integer.parseInt(request.getParameter("id"));
-        Room room = dao.getRoomById(id);
-        request.setAttribute("room", room);
+        if ( !(request.getParameter("id") == null) && !request.getParameter("id").isEmpty()) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Room room = dao.getRoomById(id);
+            request.setAttribute("room", room);
+        }
         request.getRequestDispatcher("roomDetails.jsp").forward(request, response);
     }
 
